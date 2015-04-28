@@ -7,7 +7,7 @@ export SENTRY_CONF=$SENTRY_CONF_FILE
 SCRIPTS_DIR=${SENTRY_SCRIPTS_DIR:-/conf}
 
 # if starting the web worker then try to initialize DB and superuser
-if [ "$1" == "start" ] || [ "$1" == "prepare" ]; then
+if [ "$1" == "prepare" ]; then
 
 sentry --config=$SENTRY_CONF_FILE upgrade --noinput
 
@@ -36,7 +36,8 @@ EOF
     fi
 fi
 
-if [ "$1" != "prepare" ]; then
-    exec sentry --config=$SENTRY_CONF_FILE $@
+if [ "$1" == "start" ]; then
+    mkdir -p ~/.sentry
+    cp $SENTRY_CONF_FILE ~/.sentry/sentry.conf.py
+    gunicorn sentry.wsgi:application -b 0.0.0.0:8000
 fi
-

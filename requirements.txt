@@ -9,7 +9,9 @@ hiredis==0.1.6
 nydus==0.10.8
 
 # sentry
-sentry[postgres]==7.4.3
+sentry==5.0.21
+Django==1.4.3
+psycopg2==2.6
 
 # ldap user store
 django-auth-ldap==1.2.5
